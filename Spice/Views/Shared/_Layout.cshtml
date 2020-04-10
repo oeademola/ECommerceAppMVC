@@ -1,0 +1,94 @@
+﻿@using Spice.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Spice</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="~/lib/jqueryui/jquery-ui.css" />
+    <link rel="stylesheet" href="~/lib/jquery-timepicker/jquery.timepicker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="" style="background-color:#f6f6f6">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <label class="text-info" style="cursor:pointer">Spice</label>
+                    <img src="" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.IsInRole(StaticDetail.ManagerUser))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Content Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="SubCategory" asp-action="Index">Sub Category</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="MenuItem" asp-action="Index">Menu Item</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Coupon" asp-action="Index">Coupon</a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a>
+                                </div>
+                            </li>
+                        }
+
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(StaticDetail.ssCartCount) != null)
+                        {
+
+
+                            <li>
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.GetInt32(StaticDetail.ssCartCount);
+
+                                }
+                                <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link"><i class="fas fa-shopping-cart"></i>&nbsp; (@count)</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i>&nbsp; (0)</a>
+                            </li>
+
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-dark">
+        <div class="container">
+            &copy; @DateTime.Now.Year - Spice @*- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+        </div>
+    </footer>
+    <script src="https://cdn.tiny.cloud/1/c5b5mpsq6ru43f5nma5s86pof658ix5f93a6awdrbabuebbk/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/font-awesome/js/all.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.js"></script>
+    <script src="~/lib/jquery-timepicker/jquery.timepicker.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
